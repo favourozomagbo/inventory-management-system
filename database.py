@@ -155,20 +155,23 @@ def create_tables():
 
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS sales (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        customer_id INTEGER NOT NULL,
-        product_id INTEGER NOT NULL,
-        quantity INTEGER NOT NULL,
-        total_price REAL NOT NULL,
-        sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        CREATE TABLE IF NOT EXISTS sales (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            customer_id INTEGER NOT NULL,
+            product_id INTEGER NOT NULL,
+            quantity INTEGER NOT NULL,
+            unit_price REAL,
+            total_price REAL NOT NULL,
+            user_id INTEGER,
+            sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-        FOREIGN KEY (customer_id)
-          REFERENCES customers(id),
-        FOREIGN KEY (product_id) 
-        REFERENCES products(id)
-    )
-    """)
+            FOREIGN KEY (customer_id)
+            REFERENCES customers(id),
+
+            FOREIGN KEY (product_id)
+            REFERENCES products(id)
+)
+""")
 
 
     cursor.execute("""
