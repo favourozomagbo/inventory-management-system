@@ -39,6 +39,8 @@ from database import (
 
 app = Flask(__name__)
 
+create_tables()
+
 app.secret_key = "inventory_management_secret_key_2026"
 
 
@@ -1066,5 +1068,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    create_tables()
+    
     app.run(debug=True)
