@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+       <h2><i class="fa-solid fa-box"></i> Product Details</h2>
+
+        <p>View complete information about this product.</p>
+
+        <div class="product-profile">
+
+            <div class="profile-card">
+                <h4>Product Name</h4>
+                <p>{{ product["name"] }}</p>
+            </div>
+
+            <div class="profile-card">
+                <h4>Brand</h4>
+                <p>{{ product["brand"] or "Not specified" }}</p>
+            </div>
+
+            <div class="profile-card">
+
+            <h4>Category</h4>
+
+            <p>{{ product["category"] or "Not specified" }}</p>
+
+            </div>
+
+            <div class="profile-card">
+
+            <h4>Description</h4>
+
+            <p>{{ product["description"] or "No description available." }}</p>
+
+            </div>
+
+            <div class="profile-card">
+
+                <h4>Product ID</h4>
+
+                <p>#{{ product["id"] }}</p>
+
+            </div>
+
+            <div class="profile-card">
+                <h4> Unit Selling Price</h4>
+                ₦{{ "{:,.2f}".format(product["price"]) }}
+            </div>
+
+            <div class="profile-card">
+                <h4>Quantity</h4>
+                <p>{{ product["quantity"] }} Units</p>
+            </div>
+
+            <div class="profile-card">
+
+            <h4>Unit</h4>
+
+            <p>{{ product["unit"] or "Pieces" }}</p>
+
+            </div>
+
+            <div class="profile-card">
+
+            <h4>Reorder Level</h4>
+
+            <p>{{ product["reorder_level"] }}</p>
+
+            </div>
+
+            <div class="profile-card">
+
+                <h4>Inventory Status</h4>
+
+            {% if product["quantity"] == 0 %}
+
+                <p class="status out-stock">
+                    <i class="fa-solid fa-circle-xmark"></i> Out of Stock
+                </p>
+            {% elif product["quantity"] <= 5 %}
+
+                <p class="status low-stock">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Low Stock
+                </p>
+
+            {% else %}
+
+                <p class="status in-stock">
+                    <i class="fa-solid fa-circle-check"></i> In Stock
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            <div class="profile-card">
+                <h4>Barcode</h4>
+                <p>{{ product["barcode"] }}</p>
+            </div>
+
+            <div class="profile-card">
+                <h4>Supplier</h4>
+                <p>{{ product["supplier_name"] }}</p>
+            </div>
+
+            <div class="profile-card">
+
+            <h4>Date Added</h4>
+
+            <p>{{ product["created_at"] }}</p>
+
+            </div>
+
+            <div class="profile-card">
+
+            <h4>Last Updated</h4>
+
+            <p>{{ product["updated_at"] }}</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="supplier-summary">
+
+    <h3>Supplier Purchase Summary</h3>
+
+    {% if supplier_summary %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Supplier</th>
+                    <th>Quantity Supplied</th>
+                    <th>Total Cost</th>
+                    <th>Average Cost</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for supplier in supplier_summary %}
+
+                    <tr>
+
+                        <td>
+                            {{ supplier['supplier_name'] }}
+                        </td>
+
+                        <td>
+                            {{ supplier['total_quantity'] }}
+                            {{ product['unit'] }}
+                        </td>
+
+                        <td>
+                            ₦{{ "{:,.2f}".format(supplier['total_cost']) }}
+                        </td>
+
+                        <td>
+                            ₦{{ "{:,.2f}".format(supplier['average_price']) }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% else %}
+
+        <p>No purchase history available for this product.</p>
+
+    {% endif %}
+
+</div>
+
+        <div class="form-buttons">
+
+            <a href="{{ url_for('edit_product', product_id=product['id']) }}"
+               class="btn btn-warning">
+
+                <i class="fa-solid fa-pen"></i>
+                Edit Product
+
+            </a>
+
+            <a href="{{ url_for('products') }}"
+               class="btn btn-secondary">
+
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

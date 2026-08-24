@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Purchases{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Record Purchase</h1>
+
+    <p class="page-description">
+        Record new stock purchases from suppliers.
+    </p>
+
+    <div class="page-actions">
+    <a href="{{ url_for('purchase_history') }}" class="btn">
+        View Purchase History
+    </a>
+    </div> 
+
+    <form action="{{ url_for('purchases') }}" method="POST" class="purchase-form">
+
+        <div class="form-group">
+
+            <label for="productSearch">
+            Product
+            </label>
+
+            <input
+                type="text"
+                id="productSearch"
+                placeholder="Search for a product..."
+                autocomplete="off"
+                >
+
+            <div id="productResults" class="product-results">
+
+            {% for product in products %}
+
+                    <div
+                        class="product-option"
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.name }}"
+                        data-unit="{{ product.unit }}"
+                    >
+
+                <span>
+                    {{ product.name }}
+                </span>
+
+                <small>
+                    Stock: {{ product.quantity }}
+                </small>
+
+            </div>
+
+        {% endfor %}
+
+        </div>
+
+        <small id="purchaseUnit"></small>
+        
+    <input
+        type="hidden"
+        id="product_id"
+        name="product_id"
+        required
+    >
+
+    </div>
+
+        <div class="form-group">
+
+            <label for="supplierSearch">
+                Supplier
+            </label>
+
+            <input
+                type="text"
+                id="supplierSearch"
+                 placeholder="Search for a supplier..."
+                autocomplete="off"
+            >
+
+        <div id="supplierResults" class="supplier-results">
+
+        {% for supplier in suppliers %}
+
+        <div
+            class="supplier-option"
+            data-id="{{ supplier.id }}"
+            data-name="{{ supplier.supplier_name }}"
+        >
+
+            <span>
+                {{ supplier.supplier_name }}
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <input
+        type="hidden"
+        id="supplier_id"
+        name="supplier_id"
+        required
+    >
+
+</div>
+
+
+        <div class="form-group">    
+
+            <label for="purchaseQuantity">Quantity 
+                <span id="purchaseUnitDisplay"></span>
+            </label>
+
+                <div class="quantity-with-unit">
+
+                    <input
+                    type="number"
+                    id="purchaseQuantity"
+                    name="quantity"
+                    min="1"
+                    required
+                    >
+
+                </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="purchase_price">Purchase Price</label>
+
+            <input
+                type="number"
+                id="purchase_price"
+                name="purchase_price"
+                step="0.01"
+                min="0"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn">
+            Record Purchase
+        </button>
+
+    </form>
+
+    </div>
+
+    
+
+</div>
+
+{% endblock %}

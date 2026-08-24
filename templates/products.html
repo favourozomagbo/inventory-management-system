@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h2> Add Products</h2>
+
+    <p> Add a new product to your inventory by filling out the form below.</p>
+
+    <form method="POST">
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Product Name</label>
+
+            <input
+                type="text"
+                name="product_name"
+                placeholder="Enter product name"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="brand">Brand</label>
+
+                <input
+                    type="text"
+                    id="brand"
+                    name="brand"
+                    placeholder="Enter brand"
+                >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Category</label>
+
+    <select name="category" required>
+
+    <option value="">Select Category</option>
+
+    <option value="Electronics">Electronics</option>
+
+    <option value="Groceries">Groceries</option>
+
+    <option value="Cosmetics">Cosmetics</option>
+
+    <option value="Beverages">Beverages</option>
+
+    <option value="Stationery">Stationery</option>
+
+    <option value="Clothing">Clothing</option>
+
+    <option value="Furniture">Furniture</option>
+
+    <option value="Others">Others</option>
+
+    </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Description</label>
+
+        <textarea
+            name="description"
+            rows="3"
+            placeholder="Enter product description"></textarea>
+
+    </div>
+
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Price (₦)</label>
+
+            <input
+                type="number"
+                step="0.01"
+                name="price"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Quantity</label>
+
+            <input
+                type="number"
+                name="quantity"
+                required>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>Unit</label>
+
+            <select name="unit">
+
+                <option value="Pieces">Pieces</option>
+
+                <option value="Pack">Pack</option>
+
+                <option value="Bottle">Bottle</option>
+
+                <option value="Carton">Carton</option>
+
+                <option value="Bag">Bag</option>
+
+                <option value="Box">Box</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Reorder Level</label>
+
+            <input
+                type="number"
+                name="reorder_level"
+                value="5"
+                min="1">
+
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Supplier</label>
+
+        <select name="supplier_id" required>
+
+            {% for supplier in suppliers %}
+
+                <option value="{{ supplier['id'] }}">
+
+                    {{ supplier["supplier_name"] }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+
+    <button class="btn btn-success">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Add Product
+
+    </button>
+
+</form>
+</div>
+
+<div table-card>
+
+    <h2>Products List</h2>
+
+    <p> View, edit and manage all products currently in your inventory.</p>
+
+    <table>
+    <thead>
+        <tr>
+            <th>Product </th>
+            <th>brand</th>
+            <th>Unit</th>
+            <th> Unit Price</th>
+            <th>Quantity</th>
+            <th>Barcode</th>
+            <th>Supplier</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for product in products %}
+
+    <tr>
+
+    <td>{{ product["name"] }}</td>
+
+    <td>{{ product["brand"] }}</td>
+
+    <td>{{ product["unit"] }}</td>
+
+    <td>₦{{ "{:,.2f}".format(product['price']) }}</td>
+
+    <td>{{ product["quantity"] }}</td>
+
+    <td>{{ product["barcode"] }}</td>
+
+    <td>{{ product["supplier_name"] }}</td>
+
+
+    <td class="action-buttons">
+
+    <a href="/products/{{ product['id'] }}/details"
+       class="btn btn-primary btn-sm">
+
+        <i class="fa-solid fa-eye"></i>
+
+    </a>
+
+    <a href="/products/{{ product['id'] }}/edit"
+       class="btn btn-warning btn-sm">
+
+        <i class="fa-solid fa-pen"></i>
+
+    </a>
+
+    <form
+    action="/products/{{ product['id'] }}/delete"
+    method="POST"
+    class="delete-form"
+    data-confirm
+    data-message="Are you sure you want to delete this product?"
+    style="display:inline;">
+
+    <button
+        type="submit"
+        class="btn btn-danger btn-sm">
+
+        <i class="fa-solid fa-trash"></i>
+
+    </button>
+
+</form>
+
+    </td>
+    
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+    </table>
+
+
+    <div class="pagination">
+
+    {% if page > 1 %}
+
+        <a href="{{ url_for('products', page=page-1) }}"class="btn">Previous</a>
+
+    {% endif %}
+
+
+    <span> Page {{ page }} of {{ total_pages }} </span>
+
+
+    {% if page < total_pages %}
+
+        <a href="{{ url_for('products', page=page+1) }}"class="btn"> Next </a>
+
+    {% endif %}
+
+    </div>
+
+
+</div>
+
+{% endblock %}

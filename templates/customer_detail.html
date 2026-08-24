@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Details{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Customer Details</h2>
+
+        <div class="customer-profile">
+
+
+        <div class="profile-card">
+            <h4>
+            <i class="fa-solid fa-user"></i>
+            Customer Name
+            </h4>
+
+            <p>{{ customer["full_name"] }}</p>
+        </div>
+
+
+        <div class="profile-card">
+            <h4>
+            <i class="fa-solid fa-phone"></i>
+            Phone Number
+            </h4>
+
+            <p>{{ customer["phone"] }}</p>
+        </div>
+
+
+        <div class="profile-card">
+            <h4>
+            <i class="fa-solid fa-envelope"></i>
+            Email
+            </h4>
+
+            <p>{{ customer["email"] }}</p>
+        </div>
+
+
+        <div class="profile-card">
+            <h4>
+            <i class="fa-solid fa-location-dot"></i>
+            Address
+            </h4>
+
+            <p>{{ customer["address"] }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+    <div class="card">
+
+        <h3>
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Purchase History
+        </h3>
+
+    </div>
+
+{% if sales %}
+
+<table>
+
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Sale Date</th>
+    </tr>
+
+    {% for sale in sales %}
+
+    <tr>
+        <td>{{ sale["name"] }}</td>
+        <td>{{ sale["quantity"] }}</td>
+        <td>{{ sale["sale_date"] }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+    <div class="empty-state">
+
+        <i class="fa-solid fa-cart-shopping"></i>
+
+        <p>No purchases have been made by this customer yet.</p>
+    </div>
+
+{% endif %}
+
+        <br>
+
+        <div class="back-button">
+
+        <a href="{{ url_for('customers') }}" class="btn btn-primary">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back to Customers
+
+        </a>
+
+        </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Record Sale</h2>
+
+        <p>Record a new sale by selecting a customer, product and quantity.</p>
+
+        <form method="POST">
+
+            <label for="customerSearch">
+    <i class="fa-solid fa-user"></i>
+    Customer
+</label>
+
+<input
+    type="text"
+    id="customerSearch"
+    placeholder="Search for a customer..."
+    autocomplete="off"
+>
+
+<div id="customerResults" class="customer-results">
+
+    {% for customer in customers %}
+
+        <div
+            class="customer-option"
+            data-id="{{ customer['id'] }}"
+            data-name="{{ customer['full_name'] }}"
+        >
+
+            <span>
+                {{ customer['full_name'] }}
+            </span>
+
+            {% if customer['phone'] %}
+                <small>
+                    {{ customer['phone'] }}
+                </small>
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+<input
+    type="hidden"
+    id="customer_id"
+    name="customer_id"
+>
+
+<small>
+    Leave empty if this is a walk-in sale.
+</small>
+
+
+        <label>
+    <i class="fas fa-box"></i> Products
+</label>
+
+<div id="saleItems">
+
+    <div class="sale-item">
+
+        <input
+            type="text"
+            class="productSearch"
+            placeholder="Search for a product..."
+            autocomplete="off"
+        >
+
+        <div class="productResults" hidden>
+
+            {% for product in products %}
+
+            <button
+                type="button"
+                class="product-option"
+                data-id="{{ product['id'] }}"
+                data-name="{{ product['name'] }}"
+                data-price="{{ product['price'] }}"
+                data-stock="{{ product['quantity'] }}"
+                data-unit="{{ product['unit'] }}"
+            >
+
+                <span>
+                    {{ product['name'] }}
+                </span>
+
+                <small>
+                    Stock: {{ product['quantity'] }}
+                </small>
+
+            </button>
+
+            {% endfor %}
+
+        </div>
+
+        <input
+            type="hidden"
+            class="product_id"
+            name="product_id[]"
+            required
+        >
+
+        <small class="salesUnit"></small>
+
+        <label>Quantity</label>
+
+        <input
+            type="number"
+            class="saleQuantity"
+            name="quantity[]"
+            min="1"
+            required
+        >
+
+        <button
+            type="button"
+            class="remove-item btn btn-danger"
+        >
+            <i class="fa-solid fa-trash"></i>
+            Remove
+        </button>
+
+    </div>
+
+</div>
+
+<button
+    type="button"
+    id="addProduct"
+    class="btn btn-secondary"
+>
+    <i class="fa-solid fa-plus"></i>
+    Add Another Product
+</button>
+
+<div class="sale-total">
+
+    <strong>Grand Total:</strong>
+
+    ₦<span id="grandTotal">0.00</span>
+
+</div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Record Sale
+        </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="card">
+        <h2>Sales History</h2>
+
+        <p>View all recorded sales and transaction history.</p>
+
+        <div class="table-container">
+
+            <table class="sales-history-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+
+                    <th>Product</th>
+
+                    <th>Quantity</th>
+
+                    <th>Unit</th>
+
+                    <th>Unit Price</th>
+
+                    <th>Total Price</th>
+                    
+                    <th> Sale Date</th>
+
+                    <th>Invoice</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+{% if sales %}
+
+    {% for sale in sales %}
+
+        {% set products = sale["product_name"].split("\n") %}
+        {% set quantities = sale["quantity"].split("\n") %}
+        {% set units = sale["unit"].split("\n") %}
+        {% set unit_prices = sale["unit_price"].split("\n") %}
+        {% set total_prices = sale["total_price"].split("\n") %}
+
+        {% for i in range(products|length) %}
+
+        <tr>
+
+            <!-- Customer -->
+            <td>
+                {% if i == 0 %}
+                    {{ sale["customer_name"] }}
+                {% endif %}
+            </td>
+
+
+            <!-- Product -->
+            <td class="product-column">
+                {{ products[i] }}
+            </td>
+
+
+            <!-- Quantity -->
+            <td>
+                {{ quantities[i] }}
+            </td>
+
+
+            <!-- Unit -->
+            <td>
+                {{ units[i] }}
+            </td>
+
+
+            <!-- Unit Price -->
+            <td>
+                ₦{{ unit_prices[i] }}
+            </td>
+
+
+            <!-- Total Price -->
+            <td>
+                ₦{{ total_prices[i] }}
+            </td>
+
+
+            <!-- Sale Date -->
+            <td>
+                {% if i == 0 %}
+                    {{ sale["sale_date"] }}
+                {% endif %}
+            </td>
+
+
+            <!-- Invoice -->
+            <td>
+                {% if i == 0 %}
+                    <a
+                        href="{{ url_for('generate_invoice', sale_id=sale.id) }}"
+                        class="btn btn-primary"
+                    >
+                        Generate PDF
+                    </a>
+                {% endif %}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    {% endfor %}
+
+{% else %}
+
+    <tr>
+        <td colspan="8">
+            No sales recorded yet.
+        </td>
+    </tr>
+
+{% endif %}
+
+</tbody>
+        </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="pagination">
+
+    {% if page > 1 %}
+
+        <a href="{{ url_for('sales', page=page-1) }}"
+           class="btn btn-secondary">
+
+            <i class="fa-solid fa-angle-left"></i>
+
+            Previous
+
+        </a>
+
+    {% endif %}
+
+    <span class="page-number">
+
+        Page {{ page }} of {{ total_pages }}
+
+    </span>
+
+    {% if page < total_pages %}
+
+        <a href="{{ url_for('sales', page=page+1) }}"
+           class="btn">
+
+            Next
+
+            <i class="fa-solid fa-angle-right"></i>
+
+        </a>
+
+    {% endif %}
+
+</div>
+                    
+</div>
+
+{% endblock %}

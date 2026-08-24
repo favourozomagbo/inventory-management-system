@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Business Reports</h1>
+
+    <p class="page-description">
+    Analyze sales performance and discover your best-selling products.
+    </p>
+
+
+    <form method="GET" class="card">
+
+    <label>Minimum Units Sold</label>
+
+    <input
+        type="number"
+        name="minimum_sales"
+        value="{{ minimum_sales or '' }}"
+        placeholder="Leave empty to show all products">
+
+    <button class="btn btn-primary">
+
+        Apply Filter
+
+    </button>
+
+</form>
+
+    <div class="dashboard-card">
+
+        <div class="card">
+        <h3>
+            <i class="fa-solid fa-money-bill-wave"></i>
+            Total Revenue
+        </h3>
+
+        <p>₦{{ "{:,.2f}".format(total_revenue) }}</p>
+        </div>
+
+        <div class="card">
+        <h3>
+            <i class="fa-solid fa-cart-shopping"></i>
+            Total Sales
+        </h3>
+
+        <p>{{ total_sales }}</p>
+        </div>
+
+        <div class="card">
+        <h3>
+            <i class="fa-solid fa-chart-line"></i>
+            Average Sale
+        </h3>
+
+        <p>₦{{ "{:,.2f}".format(average_sale) }}</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Top 5 Best Selling Products</h2>
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+                    <th>Rank</th>
+                    <th>Product</th>
+                    <th>Units Sold</th>
+                    <th>Revenue</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    {% if best_selling_products %}
+
+        {% for product in best_selling_products %}
+
+        <tr>
+
+            <td>{{ loop.index }}</td>
+
+            <td>{{ product["name"] }}</td> 
+
+            <td>{{ product["total_sold"] }}</td>
+
+            <td>₦{{ "{:,.2f}".format(product['revenue']) }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <tr>
+
+            <td colspan="4">
+
+                📦 No sales data available.Record some sales to generate reports.
+            </td>
+
+        </tr>
+
+    {% endif %}
+
+</tbody>
+
+        </table>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Top Selling Products</h2>
+
+        <div class="chart-container">
+        <canvas id="salesChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    const chartProducts = {{ best_selling_products | tojson }};
+
+    </script>
+    
+
+{% endblock %}

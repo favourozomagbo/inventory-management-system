@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Create an Account</h2>
+
+        <p>Sign up to access the Inventory Management System.</p>
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter username"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required>
+
+                    <small class="password-hint">
+                    Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.
+                    </small>
+            </div>
+
+            <button type="submit" class="btn">
+                Sign Up
+            </button>
+
+        </form>
+
+        <p style="margin-top:20px;">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Login</a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

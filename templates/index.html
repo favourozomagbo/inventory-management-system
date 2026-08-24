@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Welcome to Inventory Management System</h2>
+
+<p>
+    Manage your products, suppliers, customers, sales, purchases,
+    and reports all in one place.
+</p>
+
+<p>
+    Use the navigation menu above to access different sections
+    of the system.
+</p>
+
+<h3>Quick Actions</h3>
+
+<div class="quick-actions">
+
+    <a href="{{ url_for('products') }}" class="btn">
+        <i class="fa-solid fa-box"></i>
+        Products
+    </a>
+
+    <a href="{{ url_for('sales') }}" class="btn">
+        <i class="fa-solid fa-tag"></i>
+        Record Sale
+    </a>
+
+    <a href="{{ url_for('suppliers') }}" class="btn">
+        <i class="fa-solid fa-truck"></i>
+        Suppliers
+    </a>
+
+</div>
+
+{% endblock %} 

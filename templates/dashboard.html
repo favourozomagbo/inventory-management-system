@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Inventory Dashboard</h2>
+
+<p>View key inventory statistics and monitor your business at a glance.</p>
+
+<div class="dashboard-card">
+
+    <div class="card">
+        <h3>
+            <i class="fas fa-box"></i>   
+         Total Products</h3>
+        <p>{{ total_products }}</p>
+    </div>
+
+    <div class="card">
+        <h3>
+            <i class="fas fa-truck"></i>   
+         Total Suppliers</h3>
+        <p>{{ total_suppliers }}</p>
+    </div>
+
+    <div class="card">
+        <h3>
+            <i class="fas fa-money-bill-alt"></i>   
+         Total Revenue</h3>
+        <p>{{ total_revenue }}</p>
+    </div>
+
+    <div class="card">
+        <h3>
+            <i class="fas fa-shopping-cart"></i>   
+         Total Sales</h3>
+        <p>{{ total_sales }}</p>
+    </div>
+
+
+    <div class="card">
+        <h3>
+            <i class="fas fa-exclamation-triangle"></i>   
+         Low Stock Items</h3>
+        <p>{{ low_stock_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>
+            <i class="fas fa-times-circle"></i>   
+         Out of Stock Items</h3>
+        <p>{{ out_of_stock_count }}</p>
+    </div>
+
+</div>
+
+
+<section class="recent-sales">
+
+    <h2>Recent Sales</h2>
+
+    <p>Latest sales recorded in the inventory.</p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Total</th>
+                <th>Date</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% if recent_sales %}
+
+                {% for sale in recent_sales %}
+
+                <tr>
+
+                    <td>{{ sale["customer_name"] }}</td>
+
+                    <td>{{ sale["product_name"] }}</td>
+
+                    <td>₦{{ "{:,.2f}".format(sale["total_price"]) }}</td>
+
+                    <td>{{ sale["sale_date"] }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="4">
+
+                        No recent sales available.
+
+                    </td>
+
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+
+    </table>
+
+
+    <section class="low-stock-section">
+
+    <h2>Low Stock Products</h2>
+
+    <p>Products that are running low and may need restocking.</p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Supplier</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% if low_stock_products %}
+
+                {% for product in low_stock_products %}
+
+                <tr>
+
+                    <td>{{ product["name"] }}</td>
+
+                    <td>{{ product["quantity"] }}</td>
+
+                    <td>{{ product["supplier_name"] }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="3">
+
+                        🎉 No products are currently running low.
+
+                    </td>
+
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+
+    </table>
+
+</section>
+
+</section>
+
+    <div class="out-of-stock">
+
+        <h3>
+            <i class="fas fa-times-circle"></i>
+            Out of Stock Products
+        </h3>
+
+        <div class="card">
+
+        {% if out_of_stock_products %}
+
+        <ul>
+
+            {% for product in out_of_stock_products %}
+
+                <li>{{ product["name"] }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+        {% else %}
+
+        <p><p>🎉 Great! No products are currently out of stock.</p></p>
+
+        {% endif %}
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

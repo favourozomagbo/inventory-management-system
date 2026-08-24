@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Supplier Details</h2>
+
+        <p><strong>Name:</strong> {{ supplier["supplier_name"] }}</p>
+
+        <p><strong>Phone:</strong> {{ supplier["phone"] }}</p>
+
+        <p><strong>Email:</strong> {{ supplier["email"] }}</p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Products Supplied</h2>
+
+        {% if products %}
+
+        <table>
+
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                
+            </tr>
+
+            {% for product in products %}
+
+            <tr>
+
+                <td>{{ product["name"] }}</td>
+
+                <td>₦{{ product["price"] }}</td>
+
+                <td>{{ product["quantity"] }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <p>
+
+            <strong>Total Products:</strong>
+
+            {{ products|length }}
+
+        </p>
+
+        {% else %}
+
+        <p>No products supplied yet.</p>
+
+        {% endif %}
+
+        <a href="/suppliers" class="btn">
+            Back
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

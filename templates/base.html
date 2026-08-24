@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>FavourNova Supplies</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        {% if request.endpoint not in ["login", "signup"] %}
+
+        <header>
+            <h1>FavourNova Supplies</h1>
+
+            <div class="welcome-section">
+
+                <h2>
+                 Welcome back,
+                <span>{{ session["username"] }}</span>
+                </h2>
+
+                <p>
+                Manage your inventory efficiently from one dashboard.
+                </p>
+
+            </div>
+
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/products"><i class="fa-solid fa-box"></i> Products</a>
+
+            <a href="/suppliers"><i class="fa-solid fa-truck"></i> Suppliers</a>
+            <a href="/customers"><i class="fa-solid fa-users"></i> Customers</a>
+            <a href="/sales"><i class="fa-solid fa-tag"></i> Sales</a>
+            <a href="/dashboard"><i class="fa-solid fa-chart-bar"></i> Dashboard</a>
+            <a href="/purchases"><i class="fa-solid fa-shopping-cart"></i> Purchases</a>
+            <a href="/reports"><i class="fa-solid fa-file-alt"></i> Reports</a>
+            <a href="/about"><i class="fa-solid fa-info-circle"></i> About</a>
+
+            <button
+                type="button"
+                id="theme-toggle"
+                class="theme-toggle"
+                aria-label="Toggle dark mode"
+                >
+                <i class="fa-solid fa-moon"></i>
+            </button>
+
+            <form
+                action="/logout"
+                method="POST"
+                class="logout-form"
+                data-confirm
+                data-message="Are you sure you want to logout?"
+                >
+
+                    <button type="submit" class="logout-button">
+
+                    <i class="fa-solid fa-sign-out-alt"></i>
+
+                    Logout
+
+                    </button>
+
+            </form>
+
+        </nav>
+
+        <hr>
+
+        </header>
+
+        {% endif %}
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        {% for category, message in messages %}
+
+            <div class="alert {{ category }}">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}        
+
+
+        <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+        </main>
+
+        {% if request.endpoint not in ["login", "signup"] %}
+
+        <footer>
+
+            <p><strong>Inventory Management System</strong></p>
+
+            <p>Built with Flask, SQLite, HTML, CSS & JavaScript</p>
+
+            <p>Developed by <strong>Favour Chinonyerem Ozomagbo</strong></p>
+
+            <p>&copy; 2026 All Rights Reserved.</p>
+
+        </footer>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Confirmation Modal -->
+
+<div id="confirmation-modal" class="confirmation-modal">
+
+    <div class="confirmation-box">
+
+        <div class="confirmation-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <h3>Are you sure?</h3>
+
+        <p id="confirmation-message">
+            Are you sure you want to continue?
+        </p>
+
+        <div class="confirmation-actions">
+
+            <button
+                type="button"
+                id="confirmation-cancel"
+                class="confirm-btn cancel-btn"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                id="confirmation-ok"
+                class="confirm-btn delete-confirm-btn"
+            >
+                Yes, Continue
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+
+</body>
+</html>

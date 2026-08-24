@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <h2> <i class="fa-solid fa-user"></i> 
+            Edit Customer
+        </h2>
+
+        <p>Update the customer information and save changes.</p>
+
+        <form method="POST">
+
+            <label> <i class="fa-solid fa-user"></i>
+                Customer Name
+            </label>
+
+            <input
+                type="text"
+                name="full_name"
+                value="{{ customer['full_name'] }}"
+                required
+            >
+
+            <label> <i class="fa-solid fa-phone"></i>
+                Phone Number
+            </label>
+
+            <input
+                type="text"
+                name="phone"
+                value="{{ customer['phone'] }}"
+            >
+
+            <label> <i class="fa-solid fa-envelope"></i>
+                Email
+                </label>
+
+            <input
+                type="email"
+                name="email"
+                value="{{ customer['email'] }}"
+            >
+
+
+            <label for=""> <i class="fa-solid fa-map-location-dot"></i> 
+                Address
+                </label>
+                
+            <textarea
+                name="address"
+            >{{ customer["address"] }}</textarea>
+
+            <button class="btn btn-warning">
+                Update Customer
+            </button>
+
+            <a href="/customers" class="btn">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

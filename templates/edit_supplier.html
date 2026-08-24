@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <h2>
+        <i class="fa-solid fa-building"></i>
+        Edit Supplier
+    </h2>
+
+    <p>
+        Update the supplier information and save changes.
+    </p>
+
+    <form method="POST">
+
+    <label for="supplier_name"> <i class="fa-solid fa-industry"></i>
+        Supplier Name
+    </label>
+
+    <input type="text" 
+        id="supplier_name" 
+        name="supplier_name" 
+        value="{{ supplier['supplier_name'] }}" 
+        placeholder="Enter supplier name"
+        required>
+
+    <div class="form-row">
+
+    <div class="form-group">
+
+        <label for="phone">
+            <i class="fa-solid fa-phone"></i>
+            Phone
+        </label>
+
+        <input
+            type="text"
+            id="phone"
+            name="phone"
+            value="{{ supplier['phone'] }}"
+            placeholder="Enter phone number"
+        >
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="email">
+            <i class="fa-solid fa-envelope"></i>
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            name="email"
+            value="{{ supplier['email'] }}"
+            placeholder="Enter email address"
+        >
+
+    </div>
+
+    </div>
+
+    <div class="form-actions">
+
+    <button type="submit" class="btn">
+
+        <i class="fa-solid fa-floppy-disk"></i>
+
+        Update Supplier
+
+    </button>
+
+    <a href="{{ url_for('suppliers') }}"
+       class="btn btn-secondary">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Cancel
+
+    </a>
+
+    </div>
+    </form>
+
+</div>
+
+{% endblock %}
