@@ -376,3 +376,14 @@ Building this project helped me strengthen my understanding of full-stack web de
 Full-Stack Developer
 
 Built with Python, Flask, SQLite, HTML, CSS, and JavaScript.
+
+---
+
+## 🔗 Connect With Me
+
+- **GitHub:** [Favour Ozomagbo](https://github.com/favourozomagbo)
+- **LinkedIn:** [Favour Ozomagbo](https://www.linkedin.com/in/favour-ozomagbo/)
+- **Email:** favourozomagbo@gmail.com
+- **Live Demo:** Coming soon
+
+- This project is part of my growing full-stack development portfolio, where I build and deploy practical web applications while continuously expanding my skills across frontend, backend, databases, and deployment.
